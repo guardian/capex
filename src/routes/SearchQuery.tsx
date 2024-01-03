@@ -1,14 +1,16 @@
 import type { Content } from '@guardian/content-api-models/v1/content';
-import Query from "./Query"
+import { Query, QueryData } from "./Query"
 
 interface SearchQueryData {
   initialQueryString: string
+  apiKey: string
+  baseUrl: string
 }
 
 function searchResultRenderer(result: Content) {
-  return <div></div>
+  return <div>{result.id}</div>
 }
 
-export default function SearchQuery({ initialQueryString }: SearchQueryData) {
-  return <Query initialQueryString={initialQueryString} capiPath="search" resultRenderer={searchResultRenderer} />
+export default function SearchQuery(props: SearchQueryData) {
+  return <Query {...props} capiPath="search" resultRenderer={searchResultRenderer} />
 }

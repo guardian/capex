@@ -6,10 +6,16 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import { Config } from './routes/Config'
 import SearchQuery from './routes/SearchQuery'
 
+let commonQueryParams = {
+  initialQueryString: window.location.search,
+  apiKey: "test",
+  baseUrl: "https://content.guardianapis.com/"
+}
+
 const router = createBrowserRouter([
   {
     path: "/search",
-    element: <SearchQuery initialQueryString={window.location.search} />
+    element: <SearchQuery {...commonQueryParams} />
   },
   {
     path: "/config",
