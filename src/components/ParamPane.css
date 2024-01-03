@@ -1,0 +1,8 @@
+#ParamPane .paramRow {
+    display: flex;
+    gap: 20px;
+}
+
+#ParamPane .buttons {
+    margin-top: 10px;
+}
