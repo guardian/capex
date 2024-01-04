@@ -9,4 +9,5 @@
     width: 40%;
     padding: 15px;
     background-color: var(--source-colour-gray-9);
+    font-family: var(--source-font-family-body);
 }

@@ -8,6 +8,14 @@ interface SearchQueryData {
   initialQueryString: string
 }
 
+function Standfirst({ value }: { value: string | undefined }) {
+  if(!value) return null
+  return <div
+	   className="result-standfirst"
+	   dangerouslySetInnerHTML={{ __html: value }}
+  />
+}
+
 function searchResultRenderer(result: Content) {
   let config = useContext(ConfigContext)
   let pillarClass = result.pillarName ? `result--${result.pillarName}` : "" // result.pillarName
@@ -15,6 +23,7 @@ function searchResultRenderer(result: Content) {
   return (
     <div key={result.id} className={`result ${pillarClass}`}>
       <h1><a href={result.webUrl}>{result.webTitle}</a> <a href={`${result.apiUrl}${apiKeyParam}`}>🛠</a></h1>
+      <Standfirst value={result.fields?.standfirst} />
     </div>
   )
 }
