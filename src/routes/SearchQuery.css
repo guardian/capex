@@ -1,0 +1,16 @@
+.result {
+    border-top: 5px solid;
+}
+
+.result--Lifestyle {
+    border-top-color: var(--source-palette-lifestyle-800);
+}
+
+.result h1 {
+    font-family: var(--source-font-family-headline);
+}
+
+.result a {
+    text-decoration: none;
+    color: inherit;
+}

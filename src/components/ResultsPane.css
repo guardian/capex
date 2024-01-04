@@ -1,0 +1,12 @@
+#resultsPane {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.result {
+    width: 40%;
+    padding: 15px;
+    background-color: var(--source-colour-gray-9);
+}

@@ -6,6 +6,7 @@ export interface ParamsData {
   collapsed: boolean
   params: URLSearchParams
   updateParams: (p: URLSearchParams) => void
+  updateIsComplete: (value: boolean) => void
 }
 
 interface ParamRowData {
@@ -53,13 +54,13 @@ function ParamControls({hide, newParam}: ParamControlsData) {
     <div className="buttons">
       <TextInput label="new param" width={10} value={addName} onChange={(ev) => setAddName(ev.target.value)}/>
       <Button size={"xsmall"} onClick={addButtonClick}>Add</Button>
-      <Button size={"xsmall"} onClick={hide}>Hide</Button>
+      <Button size={"xsmall"} onClick={hide}>OK</Button>
     </div>
   )
 
 }
 
-export function ParamPane( { params, updateParams }: ParamsData ) {
+export function ParamPane( { params, updateParams, updateIsComplete }: ParamsData ) {
 
   console.log("ParamPane", params)
 
@@ -96,10 +97,10 @@ export function ParamPane( { params, updateParams }: ParamsData ) {
     />
   )
 
-  let content = collapsed ? <Button size={"xsmall"} onClick={() => setCollapsed(false)}>Edit Params</Button> :
+  let content = collapsed ? <Button size={"xsmall"} onClick={ () => { updateIsComplete(false); setCollapsed(false) } }>Edit Params</Button> :
     <Fragment>
       <div className="paramElements">{paramElements}</div>
-      <ParamControls hide={() => setCollapsed(true)} newParam={newParam}/>
+      <ParamControls hide={() => { updateIsComplete(true); setCollapsed(true) } } newParam={newParam}/>
     </Fragment>
 
   return (

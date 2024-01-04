@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import "./ResultsPane.css"
 
 interface ResultsPaneData<T> {
   results: T[]
@@ -7,5 +8,5 @@ interface ResultsPaneData<T> {
 
 export default function ResultsPane<T>({ results, resultRenderer }: ResultsPaneData<T>) {
   let resultElements = results.map(resultRenderer)
-  return <div className="resultsPane">{resultElements}</div>
+  return <div id="resultsPane" className="pane">{resultElements}</div>
 }

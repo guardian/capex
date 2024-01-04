@@ -8,8 +8,6 @@ import SearchQuery from './routes/SearchQuery'
 
 let commonQueryParams = {
   initialQueryString: window.location.search,
-  apiKey: "test",
-  baseUrl: "https://content.guardianapis.com/"
 }
 
 const router = createBrowserRouter([
