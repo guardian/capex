@@ -3,6 +3,7 @@ import ResultsPane from '../components/ResultsPane'
 import { ShowQuery } from '../components/ShowQuery'
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import { ConfigContext } from '../context/Config'
+import RawResponse from '../components/RawResponse'
 
 export interface QueryData<R> {
   initialQueryString: string,
@@ -14,7 +15,7 @@ type CapiResponse<T> = { response: T }
 
 export function Query<Response extends { results: Result[] }, Result>({ initialQueryString, capiPath, resultRenderer }: QueryData<Result>) {
   let [params, updateParamsState] = useState(new URLSearchParams(initialQueryString))
-  let [results, updateResults] = useState<Result[]>([])
+  let [response, updateResponse] = useState<Response>()
 
   // we don't neccessarily want to keep submitting the query while it's being edited
   let [isComplete, updateIsComplete] = useState(true)
@@ -49,7 +50,7 @@ export function Query<Response extends { results: Result[] }, Result>({ initialQ
 
     console.log("submitting query")
     let p = submitQuery<Response>()
-      .then(res => updateResults(res.results), (reason) => {if(reason != "aborted") throw reason })
+      .then(res => updateResponse(res), (reason) => {if(reason != "aborted") throw reason })
 
     console.log("submitted", p)
     // this is the clean up function for the effect, returned to react
@@ -60,7 +61,8 @@ export function Query<Response extends { results: Result[] }, Result>({ initialQ
     <div className="App">
       <ShowQuery capiPath={capiPath} params={ params } />
       <ParamPane collapsed={true} params={ params } updateParams={updateParams} updateIsComplete={updateIsComplete}/>
-      <ResultsPane results={results} resultRenderer={resultRenderer} />
+      { response?.results ? <ResultsPane results={response.results} resultRenderer={resultRenderer} /> : null }
+      { response ? <RawResponse response={response} /> : null }
     </div>
   )
 }
