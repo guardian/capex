@@ -8,7 +8,7 @@ interface SearchQueryData {
 }
 
 function searchResultRenderer(result: Content) {
-  return <div>{result.id}</div>
+  return <div key={result.id}>{result.id}</div>
 }
 
 export default function SearchQuery(props: SearchQueryData) {

@@ -1,7 +1,7 @@
 import { ParamPane } from '../components/ParamPane'
 import ResultsPane from '../components/ResultsPane'
 import { ShowQuery } from '../components/ShowQuery'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 export interface QueryData<R> {
   initialQueryString: string,
@@ -30,7 +30,11 @@ export function Query<Response extends { results: Result[] }, Result>({ initialQ
     updateParamsState(newParams)
   }
 
-  // submitQuery<Response>(baseUrl, params, capiPath, apiKey).then(res => updateResults(res.results))
+  useEffect(() => {
+    console.log("submitting query")
+    let p = submitQuery<Response>(baseUrl, params, capiPath, apiKey).then(res => updateResults(res.results))
+    console.log("submitted", p)
+  }, [params])
 
   return (
     <div className="App">
