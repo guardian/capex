@@ -18,3 +18,15 @@
 .result-publication-date {
     font-style: italic;
 }
+
+.result-main img {
+    display: block;
+    margin-left: 10%;
+    margin-bottom: 10px;
+    max-width: 80%;
+    height: auto;
+}
+
+.result-main figcaption {
+    font-size: 0.8em;
+}

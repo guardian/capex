@@ -11,13 +11,14 @@ interface SearchQueryData {
   initialQueryString: string
 }
 
-interface FieldRendererData {
-  cf?: ContentFields
+interface HtmlFieldData {
+  field?: string
+  className: string
 }
 
-function FieldStandfirst({ cf }: FieldRendererData) {
+function HtmlField({ className, field }: HtmlFieldData) {
   return (
-    cf?.standfirst ? <div className="result-standfirst" dangerouslySetInnerHTML={{ __html: cf.standfirst }} /> : null
+    field ? <div className={`result-${className}`} dangerouslySetInnerHTML={{ __html: field }} /> : null
   )
 }
 
@@ -38,11 +39,13 @@ function searchResultRenderer(result: Content) {
   let config = useContext(ConfigContext)
   let pillarClass = result.pillarName ? `result--${result.pillarName}` : "" // result.pillarName
   let apiKeyParam = config.apiKey ? `?api-key=${config.apiKey}` : ""
+
   return (
     <div key={result.id} className={`result ${pillarClass}`}>
       <h1><a href={result.webUrl}>{result.webTitle}</a> <a href={`${result.apiUrl}${apiKeyParam}`}>🛠</a></h1>
       {webPublicationDate(result.webPublicationDate)}
-      <FieldStandfirst cf={result.fields} />
+      <HtmlField className="standfirst" field={result.fields?.standfirst} />
+      <HtmlField className="main" field={result.fields?.main} />
     </div>
   )
 }
