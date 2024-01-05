@@ -1,0 +1,43 @@
+# Find full documentation here https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch: # Manual invocation.
+  push:
+    branches:
+      - main
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install JS deps
+        run: yarn install --frozen-lockfile
+
+      - name: Build questions and static site
+        run: yarn build
+
+      - name: write the current GIT hash to dist/_prout (so it can be served by actions-static-site)
+        run: git rev-parse HEAD > dist/_prout
+
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     path: dist
+
+      # - uses: guardian/actions-static-site@v2
+      #   with:
+      #     app: interview-questions-tool
+      #     domain: capex.gutools.co.uk
+      #     guActionsRiffRaffRoleArn: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+
+    
