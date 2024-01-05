@@ -1,19 +1,37 @@
+import moment from 'moment';
 import type { Content } from '@guardian/content-api-models/v1/content';
 import { Query, QueryData } from "./Query"
 import './SearchQuery.css'
 import { ConfigContext } from '../context/Config'
-import { useContext } from 'react';
+import { ReactElement, useContext } from 'react';
+import { ContentFields } from '@guardian/content-api-models/v1/contentFields';
+import { CapiDateTime } from '@guardian/content-api-models/v1/capiDateTime';
 
 interface SearchQueryData {
   initialQueryString: string
 }
 
-function Standfirst({ value }: { value: string | undefined }) {
-  if(!value) return null
-  return <div
-	   className="result-standfirst"
-	   dangerouslySetInnerHTML={{ __html: value }}
-  />
+interface FieldRendererData {
+  cf?: ContentFields
+}
+
+function FieldStandfirst({ cf }: FieldRendererData) {
+  return (
+    cf?.standfirst ? <div className="result-standfirst" dangerouslySetInnerHTML={{ __html: cf.standfirst }} /> : null
+  )
+}
+
+function webPublicationDate(capiDateTime?: CapiDateTime) {
+  /**
+   * this is a bit of a hack because we are using the thrift model
+   * without actually using the specialised thrift decoders (because
+   * we just using the json response from capi), so the definition of
+   * webPublicationDate doesn't quite match up. It's actually a string
+   * so we need to force it.
+   */
+  if(typeof capiDateTime !== "string") return null
+  let date = moment(capiDateTime)
+  return <div className="result-publication-date">{date.format("MMMM Do YYYY")} ({date.fromNow()})</div>
 }
 
 function searchResultRenderer(result: Content) {
@@ -23,7 +41,8 @@ function searchResultRenderer(result: Content) {
   return (
     <div key={result.id} className={`result ${pillarClass}`}>
       <h1><a href={result.webUrl}>{result.webTitle}</a> <a href={`${result.apiUrl}${apiKeyParam}`}>🛠</a></h1>
-      <Standfirst value={result.fields?.standfirst} />
+      {webPublicationDate(result.webPublicationDate)}
+      <FieldStandfirst cf={result.fields} />
     </div>
   )
 }
