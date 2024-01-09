@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
@@ -19,26 +19,34 @@ const requiresApiKey = async () => {
   return null
 }
 
-const router = createHashRouter([
-  {
-    path: "/",
-    element: <Navigate to={defaultQuery + window.location.search} replace={true} />
-  },
-  {
-    path: "/search",
-    element: <SearchQuery {...commonQueryParams} />,
-    loader: requiresApiKey
-  },
-  {
-    path: "/config",
-    element: <Config />
-  }
-])
+const MainApp = () => {
+  const [config, updateConfig] = useState(readConfig())
+
+  const router = createHashRouter([
+    {
+      path: "/",
+      element: <Navigate to={defaultQuery + window.location.search} replace={true} />
+    },
+    {
+      path: "/search",
+      element: <SearchQuery {...commonQueryParams} />,
+      loader: requiresApiKey
+    },
+    {
+      path: "/config",
+      element: <Config updateConfig={updateConfig}/>
+    }
+  ])
+
+  return (
+    <ConfigContext.Provider value={config}>
+      <RouterProvider router={router} />
+    </ConfigContext.Provider>
+  )
+}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ConfigContext.Provider value={readConfig()}>
-      <RouterProvider router={router} />
-    </ConfigContext.Provider>
-  </React.StrictMode>,
+    <MainApp />
+  </React.StrictMode>
 )

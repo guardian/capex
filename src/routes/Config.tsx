@@ -1,16 +1,21 @@
 import { Button, TextInput } from "@guardian/source-react-components"
 
 import { useLoaderData, useNavigate } from "react-router-dom"
-import { ConfigContext } from "../context/Config"
+import { CapexConfig, ConfigContext } from "../context/Config"
 import { useContext } from "react"
 
-export default function Config() {
+interface ConfigData {
+  updateConfig: (newCfg: CapexConfig) => void
+}
+
+export default function Config({ updateConfig }: ConfigData) {
 
   let navigateTo = useNavigate()
 
   let config = useContext(ConfigContext)
 
   const updateApiKey = (newKey: string) => {
+    updateConfig({ ...config, apiKey: newKey })
     window.localStorage.setItem("capex-api-key", newKey)
   }
 
