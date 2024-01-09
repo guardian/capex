@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
 import {createBrowserRouter, Navigate, redirect, RouterProvider} from "react-router-dom"
 import Config from './routes/Config'
 import SearchQuery from './routes/SearchQuery'
-import { initialConfig } from './context/Config'
+import { readConfig } from './context/Config'
 
 const commonQueryParams = {
   initialQueryString: window.location.search,
@@ -14,7 +14,8 @@ const commonQueryParams = {
 const defaultQuery = "/search"
 
 const requiresApiKey = async () => {
-  if(typeof initialConfig.apiKey !== "string") return redirect("/config")
+  let cfg = readConfig()
+  if(typeof cfg.apiKey !== "string") return redirect("/config" + window.location.search)
   return null
 }
 

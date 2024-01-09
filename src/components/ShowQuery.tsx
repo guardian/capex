@@ -1,6 +1,7 @@
 import { useContext } from "react"
-import { ConfigContext } from "../context/Config"
 import "./ShowQuery.css"
+import { useLoaderData } from "react-router-dom"
+import { ConfigContext } from "../context/Config"
 
 interface ShowQueryData {
   params: URLSearchParams

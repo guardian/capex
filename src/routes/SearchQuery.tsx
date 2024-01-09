@@ -1,11 +1,11 @@
 import moment from 'moment';
 import type { Content } from '@guardian/content-api-models/v1/content';
-import { Query, QueryData } from "./Query"
+import { Query } from "./Query"
 import './SearchQuery.css'
-import { ConfigContext } from '../context/Config'
-import { ReactElement, useContext } from 'react';
-import { ContentFields } from '@guardian/content-api-models/v1/contentFields';
 import { CapiDateTime } from '@guardian/content-api-models/v1/capiDateTime';
+import { useLoaderData } from 'react-router-dom';
+import { ConfigContext } from '../context/Config';
+import { useContext } from 'react';
 
 interface SearchQueryData {
   initialQueryString: string

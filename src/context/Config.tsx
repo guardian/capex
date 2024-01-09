@@ -1,15 +1,15 @@
 import { createContext } from "react"
 
-interface Config {
-    apiKey?: string
+export interface CapexConfig {
+    apiKey: string | null
     baseUrl: string
 }
 
-let defaultApiKey = window.localStorage.getItem("capex-api-key")
-
-export const initialConfig = {
-  apiKey: defaultApiKey == null ? undefined : defaultApiKey,
-  baseUrl: "https://content.guardianapis.com/"
+export const readConfig = (): CapexConfig => {
+  return {
+    apiKey: window.localStorage.getItem("capex-api-key"),
+    baseUrl: "https://content.guardianapis.com/"
+  }
 }
 
-export const ConfigContext = createContext<Config>(initialConfig)
+export const ConfigContext = createContext(readConfig())

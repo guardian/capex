@@ -2,8 +2,9 @@ import { ParamPane } from '../components/ParamPane'
 import ResultsPane from '../components/ResultsPane'
 import { ShowQuery } from '../components/ShowQuery'
 import { ReactElement, useContext, useEffect, useState } from 'react'
-import { ConfigContext } from '../context/Config'
 import RawResponse from '../components/RawResponse'
+import { useLoaderData } from 'react-router-dom'
+import { ConfigContext } from '../context/Config'
 
 export interface QueryData<R> {
   initialQueryString: string,
