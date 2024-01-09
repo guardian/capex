@@ -3,30 +3,24 @@ import ResultsPane from '../components/ResultsPane'
 import { ShowQuery } from '../components/ShowQuery'
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import RawResponse from '../components/RawResponse'
-import { useLoaderData } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { ConfigContext } from '../context/Config'
 
 export interface QueryData<R> {
-  initialQueryString: string,
   capiPath: string,
   resultRenderer: (result: R) => ReactElement,
 }
 
 type CapiResponse<T> = { response: T }
 
-export function Query<Response extends { results: Result[] }, Result>({ initialQueryString, capiPath, resultRenderer }: QueryData<Result>) {
-  let [params, updateParamsState] = useState(new URLSearchParams(initialQueryString))
+export function Query<Response extends { results: Result[] }, Result>({ capiPath, resultRenderer }: QueryData<Result>) {
+  let [params, updateParams] = useSearchParams()
   let [response, updateResponse] = useState<Response>()
 
   // we don't neccessarily want to keep submitting the query while it's being edited
   let [isComplete, updateIsComplete] = useState(true)
 
   let config = useContext(ConfigContext)
-
-  function updateParams(newParams: URLSearchParams) {
-    updateParamsState(newParams)
-    window.history.pushState("", "", "?" + newParams.toString())
-  }
 
   useEffect(() => {
 

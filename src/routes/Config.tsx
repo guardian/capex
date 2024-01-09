@@ -1,6 +1,6 @@
 import { Button, TextInput } from "@guardian/source-react-components"
 
-import { useLoaderData, useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { CapexConfig, ConfigContext } from "../context/Config"
 import { useContext } from "react"
 
@@ -9,6 +9,8 @@ interface ConfigData {
 }
 
 export default function Config({ updateConfig }: ConfigData) {
+
+  const [search, _] = useSearchParams()
 
   let navigateTo = useNavigate()
 
@@ -24,7 +26,7 @@ export default function Config({ updateConfig }: ConfigData) {
       <div><TextInput label="API key" width={30} defaultValue={config.apiKey || ""} onChange={(ev) => updateApiKey(ev.target.value) }/></div>
       <div>
 	<Button
-	  onClick={() => navigateTo("/" + window.location.search)}>OK</Button>
+	  onClick={() => navigateTo("/?" + search)}>OK</Button>
       </div>
     </div>
   )

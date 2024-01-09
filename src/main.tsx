@@ -2,17 +2,16 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
-import {createHashRouter, Navigate, redirect, RouterProvider} from "react-router-dom"
+import {createHashRouter, Navigate, redirect, RouterProvider } from "react-router-dom"
 import Config from './routes/Config'
 import SearchQuery from './routes/SearchQuery'
 import { ConfigContext, readConfig } from './context/Config'
 
-const commonQueryParams = {
-  initialQueryString: window.location.search,
-}
-
+// if you go straight to '/' it will forward you here
 const defaultQuery = "/search"
 
+// if you don't have an api key configured, you will be taken to the
+// config page instead to add one.
 const requiresApiKey = async () => {
   let cfg = readConfig()
   if(typeof cfg.apiKey !== "string") return redirect("/config" + window.location.search)
@@ -29,7 +28,7 @@ const MainApp = () => {
     },
     {
       path: "/search",
-      element: <SearchQuery {...commonQueryParams} />,
+      element: <SearchQuery />,
       loader: requiresApiKey
     },
     {

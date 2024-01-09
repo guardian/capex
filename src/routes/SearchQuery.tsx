@@ -7,10 +7,6 @@ import { useLoaderData } from 'react-router-dom';
 import { ConfigContext } from '../context/Config';
 import { useContext } from 'react';
 
-interface SearchQueryData {
-  initialQueryString: string
-}
-
 interface HtmlFieldData {
   field?: string
   className: string
@@ -50,6 +46,6 @@ function searchResultRenderer(result: Content) {
   )
 }
 
-export default function SearchQuery(props: SearchQueryData) {
-  return <Query {...props} capiPath="search" resultRenderer={searchResultRenderer} />
+export default function SearchQuery() {
+  return <Query capiPath="search" resultRenderer={searchResultRenderer} />
 }
