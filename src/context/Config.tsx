@@ -7,7 +7,9 @@ interface Config {
 
 let defaultApiKey = window.localStorage.getItem("capex-api-key")
 
-export const ConfigContext = createContext<Config>({
-    apiKey: defaultApiKey == null ? undefined : defaultApiKey,
-    baseUrl: "https://content.guardianapis.com/"
-})
+export const initialConfig = {
+  apiKey: defaultApiKey == null ? undefined : defaultApiKey,
+  baseUrl: "https://content.guardianapis.com/"
+}
+
+export const ConfigContext = createContext<Config>(initialConfig)
