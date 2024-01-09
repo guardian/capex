@@ -22,10 +22,10 @@ jobs:
           node-version-file: '.nvmrc'
 
       - name: Install JS deps
-        run: yarn install --frozen-lockfile
+        run: npm install
 
-      - name: Build questions and static site
-        run: yarn build
+      - name: Build static site
+        run: npm run build
 
       - name: write the current GIT hash to dist/_prout (so it can be served by actions-static-site)
         run: git rev-parse HEAD > dist/_prout
