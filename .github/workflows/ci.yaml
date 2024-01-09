@@ -30,9 +30,10 @@ jobs:
       - name: write the current GIT hash to dist/_prout (so it can be served by actions-static-site)
         run: git rev-parse HEAD > dist/_prout
 
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     path: dist
+      - name: upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist
 
       # - uses: guardian/actions-static-site@v2
       #   with:
