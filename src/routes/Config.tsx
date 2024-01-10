@@ -10,10 +10,10 @@ interface ConfigData {
 
 export default function Config({ updateConfig }: ConfigData) {
 
-  const [search, _] = useSearchParams()
-
   let navigateTo = useNavigate()
 
+  let [params, _] = useSearchParams()
+  let returnTo = params.get("redirect") || "/"
   let config = useContext(ConfigContext)
 
   const updateApiKey = (newKey: string) => {
@@ -26,7 +26,7 @@ export default function Config({ updateConfig }: ConfigData) {
       <div><TextInput label="API key" width={30} defaultValue={config.apiKey || ""} onChange={(ev) => updateApiKey(ev.target.value) }/></div>
       <div>
 	<Button
-	  onClick={() => navigateTo("/?" + search)}>OK</Button>
+	  onClick={() => navigateTo(returnTo)}>OK</Button>
       </div>
     </div>
   )
