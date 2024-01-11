@@ -316,3 +316,8 @@
     margin-bottom: 10px;
     margin-left: 10px;
 }
+
+
+.icon-x-small {
+    font-size: var(--source-size-icon-x-small)
+}

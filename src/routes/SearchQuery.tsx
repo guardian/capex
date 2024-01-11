@@ -5,6 +5,8 @@ import './SearchQuery.css'
 import { CapiDateTime } from '@guardian/content-api-models/v1/capiDateTime';
 import { ConfigContext } from '../context/Config';
 import { useContext } from 'react';
+import { Tag } from '@guardian/content-api-models/v1/tag';
+import { Accordion, AccordionRow } from '@guardian/source-react-components';
 
 interface HtmlFieldData {
   field?: string
@@ -30,6 +32,30 @@ function webPublicationDate(capiDateTime?: CapiDateTime) {
   return <div className="result-publication-date">{date.format("MMMM Do YYYY")} ({date.fromNow()})</div>
 }
 
+interface TagsData {
+  tags?: Tag[]
+}
+
+function Tags({ tags }: TagsData) {
+  let tagsItems = tags?.map(t => <li>{t.id}</li>)
+  let row = [
+    <AccordionRow label="Tags">
+      <ul>
+	{tagsItems}
+      </ul>
+    </AccordionRow>
+  ]
+  if(tags) {
+    return (
+      <Accordion>
+	{row}
+      </Accordion>
+    )
+  } else {
+    return null
+  }
+}
+
 function searchResultRenderer(result: Content) {
   let config = useContext(ConfigContext)
   let pillarClass = result.pillarName ? `result--${result.pillarName}` : "" // result.pillarName
@@ -37,10 +63,11 @@ function searchResultRenderer(result: Content) {
 
   return (
     <div key={result.id} className={`result ${pillarClass}`}>
-      <h1><a href={result.webUrl}>{result.webTitle}</a> <a href={`${result.apiUrl}${apiKeyParam}`}>🛠</a></h1>
+      <h1><a href={result.webUrl}>{result.webTitle}</a> <a href={`${result.apiUrl}${apiKeyParam}`}><span className="icon-x-small">🛠</span></a></h1>
       {webPublicationDate(result.webPublicationDate)}
       <HtmlField className="standfirst" field={result.fields?.standfirst} />
       <HtmlField className="main" field={result.fields?.main} />
+      <Tags tags={result.tags} />
     </div>
   )
 }
