@@ -3,7 +3,27 @@
 }
 
 .result--Lifestyle {
-    border-top-color: var(--source-palette-lifestyle-800);
+    border-top-color: var(--source-palette-lifestyle-600);
+}
+
+.result--News {
+    border-top-color: var(--source-palette-news-600);
+}
+
+.result--Sport {
+    border-top-color: var(--source-palette-sport-600);
+}
+
+.result--Opinion {
+    border-top-color: var(--source-palette-opinion-600);
+}
+
+.result--Arts {
+    border-top-color: var(--source-palette-arts-600);
+}
+
+.result--Culture {
+    border-top-color: var(--source-palette-culture-600);
 }
 
 .result h1 {
