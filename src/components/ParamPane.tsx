@@ -1,6 +1,6 @@
 import { TextInput, Button } from "@guardian/source-react-components"
 import "./ParamPane.css"
-import { ChangeEvent, Fragment, useState } from "react"
+import { ChangeEvent, Fragment, KeyboardEvent, useState } from "react"
 
 export interface ParamsData {
   collapsed: boolean
@@ -50,9 +50,13 @@ function ParamControls({hide, newParam}: ParamControlsData) {
       newParam(newName)
     }
   }
+  // watch for enter key and duplicate add button behaviour
+  const keyHandler = (ev: KeyboardEvent<HTMLInputElement>) => {
+    if(ev.key == "Enter") addButtonClick()
+  }
   return (
     <div className="buttons">
-      <TextInput label="new param" width={10} value={addName} onChange={(ev) => setAddName(ev.target.value)}/>
+      <TextInput label="new param" width={10} value={addName} onKeyUp={keyHandler} onChange={(ev) => setAddName(ev.target.value)}/>
       <Button size={"xsmall"} onClick={addButtonClick}>Add</Button>
       <Button size={"xsmall"} onClick={hide}>OK</Button>
     </div>
