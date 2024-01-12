@@ -5,13 +5,20 @@ import './index.css'
 import {createHashRouter, LoaderFunction, Navigate, redirect, RouterProvider } from "react-router-dom"
 import Config from './routes/Config'
 import SearchQuery from './routes/SearchQuery'
-import { ConfigContext, readConfig } from './context/Config'
+import { CapexConfig, ConfigContext, readConfig, storeConfig } from './context/Config'
 
 // if you go straight to '/' it will forward you here
 const defaultQuery = "/search"
 
 const MainApp = () => {
-  const [config, updateConfig] = useState(readConfig())
+  const [config, updateConfigState] = useState(readConfig())
+
+  const updateConfig = (newConfig: CapexConfig) => {
+    // normalise the url
+    let normalisedConfig = { ...newConfig, baseUrl: new URL(newConfig.baseUrl).toString() }
+    updateConfigState(normalisedConfig)
+    storeConfig(normalisedConfig)
+  }
 
   // if you don't have an api key configured, you will be taken to the
   // config page instead to add one.
